@@ -158,14 +158,15 @@
     </div>
   </header>
 
-  <!-- Banner de instalación inteligente (oculto en iPhone para evitar duplicidad) -->
+  <!-- Banner de instalación para Android / Escritorio (Chrome) -->
   <div class="install-banner" id="installBanner" hidden>
     <span>¡Instalá Move! en tu dispositivo</span>
     <button class="mini" id="install" style="background:var(--acc); color:var(--acc-txt); border:none;">Instalar</button>
   </div>
-  <!-- Instrucción específica limpia para iOS / Safari -->
+
+  <!-- Banner fijo exclusivo para iOS / Safari (limpio y sin duplicidad) -->
   <div class="install-banner" id="iosHint" hidden style="border-color: var(--line);">
-    <span>📱 En Safari: tocá <b>Compartir</b> y elegí <b>"Agregar a pantalla de inicio"</b>.</span>
+    <span>📱 En Safari: tocá el botón <b>Compartir</b> y elegí <b>"Agregar a pantalla de inicio"</b>.</span>
   </div>
 
   <!-- Sección de Importación -->
@@ -225,7 +226,7 @@
       <p>En la pantalla principal podés elegir cada cuánto tiempo querés recibir un aviso: <b>15 min, 30 min, 1 h, 1 h 30</b>, o bien seleccionar <b>"Otro"</b> para ingresar un tiempo personalizado exacto entre 1 y 120 minutos.</p>
 
       <h3>3. Ejercicios en Pantalla y Cambio de Ejercicios</h3>
-      <p>Cuando suena la alarma, la tarjeta central se ilumina y te muestra el nombre del ejercicio junto con las repeticiones o segundos calculados. Si por cualquier motivo querés hacer otro ejercicio distinto en ese momento, podés tocar el botón <b>"Otro ejercicio"</b> para sortear uno nuevo al instante.</p>
+      <p>Когда suena la alarma, la tarjeta central se ilumina y te muestra el nombre del ejercicio junto con las repeticiones o segundos calculados. Si por cualquier motivo querés hacer otro ejercicio distinto en ese momento, podés tocar el botón <b>"Otro ejercicio"</b> para sortear uno nuevo al instante.</p>
 
       <h3>4. Dificultad Automática</h3>
       <p>Podés ajustar la intensidad global de la app desde los selectores:</p>
@@ -240,7 +241,7 @@
     </div>
   </section>
 
-  <!-- Vista a pantalla completa: Mis Ejercicios con explicación clara para compartir -->
+  <!-- Vista a pantalla completa: Mis Ejercicios -->
   <section class="fullscreen-view" id="mineView" hidden>
     <div class="fullscreen-header">
       <h2>Mis Ejercicios 📒</h2>
@@ -249,10 +250,9 @@
     <div>
       <p class="hint" style="margin-bottom: 14px;">Acá podés crear y gestionar tu propia lista personalizada de ejercicios (hasta 30). Los ejercicios que agregues acá se sumarán automáticamente al bolillero general cuando suene la alarma de movimiento.</p>
       
-      <!-- Explicación clara de cómo compartir -->
       <div style="background: var(--panel); border: 2px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 14px;">
         <strong style="font-size: .9rem; color: var(--acc); display: block; margin-bottom: 4px;">📤 ¿Cómo compartir tus ejercicios?</strong>
-        <p class="hint" style="margin: 0;">Cuando tengas al menos un ejercicio cargado, aparecera el botón <b>"Compartir mis ejercicios"</b>. Al presionarlo, la app generará un enlace único con tu lista. Podrás enviarlo por WhatsApp, correo o redes sociales a quien quieras. Cuando la otra persona abra el link, la app le preguntará automáticamente qué ejercicios desea importar a su propia lista.</p>
+        <p class="hint" style="margin: 0;">Cuando tengas al menos un ejercicio cargado, aparecerá el botón <b>"Compartir mis ejercicios"</b>. Al presionarlo, la app generará un enlace único con tu lista. Podrás enviarlo por WhatsApp, correo o redes sociales a quien quieras. Cuando la otra persona abra el link, la app le preguntará automáticamente qué ejercicios desea importar a su propia lista.</p>
       </div>
 
       <input class="fld" id="cName" maxlength="40" placeholder="Nombre (ej.: Burpees)" aria-label="Nombre del ejercicio">
@@ -433,20 +433,25 @@ const standalone = () => (window.matchMedia && window.matchMedia("(display-mode:
 const ua = navigator.userAgent || "";
 const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
 
-if(window.addEventListener){
+/* Detección directa y robusta para mostrar el banner adecuado según el sistema */
+if (isIOS && !standalone()) {
+  // Si está en iPhone y no instalada, mostramos directamente la pista de Safari
+  $("iosHint").hidden = false;
+  $("installBanner").hidden = true;
+} else {
+  // Para Android / Chrome / Escritorio escuchamos el evento nativo
   window.addEventListener("beforeinstallprompt", e => { 
     e.preventDefault(); 
     deferred = e; 
-    if(!standalone() && !isIOS) $("installBanner").hidden = false; 
+    if (!standalone()) $("installBanner").hidden = false; 
   });
-  window.addEventListener("appinstalled", () => { deferred = null; $("installBanner").hidden = true; $("iosHint").hidden = true; });
 }
 
-/* Manejo inteligente de visualización de instalación según dispositivo */
-if(isIOS && !standalone()){
-  $("iosHint").hidden = false; // Muestra solo el texto de Safari en iPhone
-  $("installBanner").hidden = true;
-}
+window.addEventListener("appinstalled", () => { 
+  deferred = null; 
+  $("installBanner").hidden = true; 
+  $("iosHint").hidden = true; 
+});
 
 $("install").onclick = async () => {
   if(deferred){

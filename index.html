@@ -165,9 +165,10 @@
   </div>
 
   <!-- Banner fijo exclusivo para iOS / Safari (limpio y sin duplicidad) -->
-  <div class="install-banner" id="iosHint" hidden style="border-color: var(--line);">
-    <span>📱 En Safari: tocá el botón <b>Compartir</b> y elegí <b>"Agregar a pantalla de inicio"</b>.</span>
-  </div>
+ <div class="install-banner" id="iosHint" hidden style="border-color: var(--line); justify-content: space-between;">
+  <span>📱 En Safari: tocá <b>Compartir</b> y elegí <b>"Agregar a pantalla de inicio"</b>.</span>
+  <button class="mini" id="closeIosHint" style="padding: 2px 8px; font-size: .8rem; background: transparent; border: 1px solid var(--line);">✕</button>
+</div>
 
   <!-- Sección de Importación -->
   <section class="imp" id="imp" hidden>

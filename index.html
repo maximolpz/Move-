@@ -37,14 +37,15 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--txt); font-family: "Helvetica Neue", Arial, system-ui, sans-serif; overflow-x: hidden; }
   body { display: flex; justify-content: center; padding: 12px 12px 30px; }
-  main { width: 100%; max-width: 440px; }
+  main { width: 100%; max-width: 440px; position: relative; }
 
-  /* Barra superior limpia y ordenada */
+  /* Barra superior limpia */
   .headerbar { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
   .header-left, .header-right { display: flex; align-items: center; gap: 6px; }
-  .headerbar .mini { padding: 7px 10px; font-size: .8rem; white-space: nowrap; }
+  .headerbar .mini { padding: 7px 10px; font-size: .88rem; white-space: nowrap; }
   a.mini { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
-  #themeBtn { font-size: 1rem; padding: 6px 9px; line-height: 1; }
+  
+  .icon-btn { font-size: 1.1rem; padding: 5px 9px; line-height: 1; }
 
   .opts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
   .opts button { padding: 10px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .82rem; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all .15s ease; }
@@ -89,63 +90,81 @@
   .seg button { padding: 10px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .85rem; font-weight: 700; border-radius: 10px; cursor: pointer; }
   .seg button[aria-pressed="true"] { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); }
 
-  /* Secciones desplegables estilizadas y compactas para evitar desbordamientos */
-  .mine, .imp, .guide { border: 2px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 12px; background: var(--panel); }
-  .mine summary { font-weight: 800; cursor: pointer; font-size: .95rem; outline: none; }
-  .fld { width: 100%; padding: 10px; margin-top: 6px; border-radius: 8px; border: 2px solid var(--line); background: var(--bg); color: var(--txt); font-size: .9rem; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  #cAdd { margin-top: 8px; background: var(--acc); color: var(--acc-txt); border-color: var(--acc); width: 100%; }
-  .clist { list-style: none; padding: 0; margin: 10px 0 0; max-height: 150px; overflow-y: auto; }
-  .clist li { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 6px 0; border-top: 1px solid var(--line); font-size: .88rem; }
+  /* Vistas a pantalla completa */
+  .fullscreen-view {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 16px 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  .fullscreen-view[hidden] { display: none !important; }
+  .fullscreen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 12px;
+  }
+  .fullscreen-header h2 { margin: 0; font-size: 1.25rem; }
 
-  .imp { border-color: var(--acc); }
+  .fld { width: 100%; padding: 11px; margin-top: 8px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--txt); font-size: .95rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #cAdd { margin-top: 10px; background: var(--acc); color: var(--acc-txt); border-color: var(--acc); width: 100%; }
+  .clist { list-style: none; padding: 0; margin: 12px 0 0; }
+  .clist li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: .9rem; }
+
+  .imp { border: 2px solid var(--acc); border-radius: 14px; padding: 16px; margin-bottom: 12px; background: var(--panel); }
   .imp label { display: flex; gap: 8px; align-items: center; padding: 4px 0; cursor: pointer; font-size: .9rem; }
   .imp input { width: 18px; height: 18px; accent-color: var(--acc); }
   #impOk, #cShare { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); width: 100%; }
-  #cShare { margin-top: 10px; }
+  #cShare { margin-top: 12px; }
 
-  .guide h2 { margin: 0 0 6px; font-size: 1.05rem; }
-  .guide h3 { margin: 10px 0 2px; font-size: .92rem; color: var(--acc); }
-  .guide p, .guide li { font-size: .88rem; line-height: 1.35; }
-  .guide p { margin: 2px 0; }
-  .guide ul { padding-left: 16px; margin: 2px 0; }
+  .guide-content h3 { margin: 16px 0 4px; font-size: 1rem; color: var(--acc); }
+  .guide-content p, .guide-content li { font-size: .95rem; line-height: 1.45; }
+  .guide-content ul { padding-left: 20px; margin: 4px 0; }
 
-  /* Banner flotante discreto para instalar la app (reubicado) */
+  .menu-options { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .menu-options button { padding: 16px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--txt); font-size: 1rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+
   .install-banner { display: flex; align-items: center; justify-content: space-between; background: var(--panel); border: 2px solid var(--acc); padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; gap: 10px; }
   .install-banner span { font-size: .88rem; font-weight: 700; }
 
   button:focus-visible, a.mini:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
   input, button, a { -webkit-tap-highlight-color: transparent; }
   button, a.mini { touch-action: manipulation; }
-  [hidden] { display: none !important; }
 
   @media (max-width: 480px) {
-    body { padding: 8px 8px 20px; }
-    .fld, #custom, #hRow input { font-size: 16px; } /* Evita zoom automático en iOS */
+    .fld, #custom, #hRow input { font-size: 16px; }
   }
 </style>
 </head>
 <body>
 <main>
-  <!-- Barra superior optimizada: Spotify/YouTube a la izquierda, Guía y Tema a la derecha -->
+  <!-- Barra superior limpia: Spotify y YouTube izq | Libreta (📒) y Engranaje (⚙️) der -->
   <header class="headerbar" aria-label="Accesos rápidos">
     <div class="header-left">
       <a class="mini" id="mSp" target="_blank" rel="noopener noreferrer">Spotify</a>
       <a class="mini" id="mYt" target="_blank" rel="noopener noreferrer">YouTube</a>
     </div>
     <div class="header-right">
-      <button class="mini" id="guideBtn">Guía</button>
-      <button class="mini" id="themeBtn" aria-label="Cambiar tema">🌙</button>
+      <button class="mini icon-btn" id="mineBtn" aria-label="Mis ejercicios" title="Mis ejercicios">📒</button>
+      <button class="mini icon-btn" id="settingsBtn" aria-label="Configuración" title="Configuración">⚙️</button>
     </div>
   </header>
 
-  <!-- Banner de instalación reubicado de forma cómoda -->
+  <!-- Banner de instalación -->
   <div class="install-banner" id="installBanner" hidden>
     <span>¡Instalá Move! en tu dispositivo</span>
     <button class="mini" id="install" style="background:var(--acc); color:var(--acc-txt); border:none;">Instalar</button>
   </div>
   <p class="hint" id="iosHint" hidden>En Safari: tocá Compartir y elegí "Agregar a pantalla de inicio".</p>
 
+  <!-- Sección de Importación -->
   <section class="imp" id="imp" hidden>
     <strong id="impTitle"></strong>
     <div id="impList"></div>
@@ -155,23 +174,68 @@
     </div>
   </section>
 
-  <section class="guide" id="guide" hidden>
-    <h2>Guía de Move!</h2>
-    <p>Esta app te avisa cada cierto tiempo para que te muevas un poco: cuando termina la cuenta regresiva suena un gong y te muestra un ejercicio corto. El ciclo arranca de nuevo solo hasta que lo detengas.</p>
-
-    <h3>Empezar y detener</h3>
-    <ul>
-      <li>Elegí el intervalo: 15 min, 30 min, 1 h, 1 h 30, o "Otro" (de 1 a 120 min).</li>
-      <li>Tocá <b>Empezar</b>. Al llegar a cero suena el gong y aparece el ejercicio.</li>
-      <li><b>Detener todo</b> corta el ciclo por completo.</li>
-    </ul>
-
-    <h3>Dificultad y Mis Ejercicios</h3>
-    <p>Básico, Medio e Intenso escalan las cantidades automáticamente. Podés cargar tus propios ejercicios (hasta 30) y compartirlos mediante un link.</p>
-
-    <div class="acts"><button class="mini" id="guideClose">Cerrar guía</button></div>
+  <!-- Vista a pantalla completa: Configuración & Opciones -->
+  <section class="fullscreen-view" id="settingsView" hidden>
+    <div class="fullscreen-header">
+      <h2>Configuración</h2>
+      <button class="mini" id="settingsClose">Cerrar ✕</button>
+    </div>
+    <div class="menu-options">
+      <button id="guideMenuBtn">
+        <span>📖 Guía de uso</span>
+        <span>→</span>
+      </button>
+      <button id="toggleThemeMenuBtn">
+        <span>🎨 Cambiar tema</span>
+        <span id="themeStatus">Claro</span>
+      </button>
+    </div>
   </section>
 
+  <!-- Vista a pantalla completa: Guía de uso -->
+  <section class="fullscreen-view" id="guide" hidden>
+    <div class="fullscreen-header">
+      <h2>Guía de Move!</h2>
+      <button class="mini" id="guideClose">Cerrar ✕</button>
+    </div>
+    <div class="guide-content">
+      <p>Esta app te avisa cada cierto tiempo para que te muevas un poco: cuando termina la cuenta regresiva suena un gong y te muestra un ejercicio corto. El ciclo arranca de nuevo solo hasta que lo detengas.</p>
+      
+      <h3>Empezar y detener</h3>
+      <ul>
+        <li>Elegí el intervalo: 15 min, 30 min, 1 h, 1 h 30, o "Otro" (de 1 a 120 min).</li>
+        <li>Tocá <b>Empezar</b>. Al llegar a cero suena el gong y aparece el ejercicio.</li>
+        <li><b>Detener todo</b> corta el ciclo por completo.</li>
+      </ul>
+
+      <h3>Dificultad y Mis Ejercicios</h3>
+      <p>Básico, Medio e Intenso escalan las cantidades automáticamente. Podés cargar tus propios ejercicios (hasta 30) tocando el botón 📒 y compartirlos mediante un link.</p>
+    </div>
+  </section>
+
+  <!-- Vista a pantalla completa: Mis Ejercicios -->
+  <section class="fullscreen-view" id="mineView" hidden>
+    <div class="fullscreen-header">
+      <h2>Mis Ejercicios 📒</h2>
+      <button class="mini" id="mineClose">Cerrar ✕</button>
+    </div>
+    <div>
+      <input class="fld" id="cName" maxlength="40" placeholder="Nombre (ej.: Burpees)" aria-label="Nombre del ejercicio">
+      <div class="row2">
+        <input class="fld" id="cQty" type="number" inputmode="numeric" min="1" max="500" placeholder="Cantidad" aria-label="Cantidad">
+        <input class="fld" id="cUnit" maxlength="30" placeholder="repeticiones" aria-label="Unidad">
+      </div>
+      <input class="fld" id="cHow" maxlength="120" placeholder="Cómo se hace (opcional)" aria-label="Cómo se hace">
+      <button class="mini" id="cAdd">Agregar ejercicio</button>
+      <p class="hint" id="cEmpty" style="margin-top:12px">Todavía no agregaste ninguno.</p>
+      <ul class="clist" id="cList"></ul>
+      <button class="mini" id="cShare" hidden>Compartir mis ejercicios</button>
+      <p class="hint" id="shareMsg" style="margin-top:10px" hidden></p>
+      <input class="fld" id="shareLink" readonly hidden aria-label="Link para compartir">
+    </div>
+  </section>
+
+  <!-- Controles principales de la App -->
   <div class="opts" role="group" aria-label="Cada cuánto tiempo">
     <button data-min="15" aria-pressed="true">15 min</button>
     <button data-min="30" aria-pressed="false">30 min</button>
@@ -221,22 +285,6 @@
     <button id="go">Empezar</button>
     <button id="stop" hidden>Detener todo</button>
   </div>
-
-  <details class="mine">
-    <summary>Mis ejercicios</summary>
-    <input class="fld" id="cName" maxlength="40" placeholder="Nombre (ej.: Burpees)" aria-label="Nombre del ejercicio">
-    <div class="row2">
-      <input class="fld" id="cQty" type="number" inputmode="numeric" min="1" max="500" placeholder="Cantidad" aria-label="Cantidad">
-      <input class="fld" id="cUnit" maxlength="30" placeholder="repeticiones" aria-label="Unidad">
-    </div>
-    <input class="fld" id="cHow" maxlength="120" placeholder="Cómo se hace (opcional)" aria-label="Cómo se hace">
-    <button class="mini" id="cAdd">Agregar ejercicio</button>
-    <p class="hint" id="cEmpty" style="margin-top:8px">Todavía no agregaste ninguno.</p>
-    <ul class="clist" id="cList"></ul>
-    <button class="mini" id="cShare" hidden>Compartir mis ejercicios</button>
-    <p class="hint" id="shareMsg" style="margin-top:8px" hidden></p>
-    <input class="fld" id="shareLink" readonly hidden aria-label="Link para compartir">
-  </details>
 </main>
 
 <script>
@@ -257,7 +305,7 @@ const EXERCISES = [
   {n:"Escaladores", c:20, r:"{n} en total", h:"En posición de flexión, llevá una rodilla al pecho y alterná."},
   {n:"Sentadilla de pared", c:30, r:"{n} segundos", h:"Espalda contra la pared, muslos paralelos al piso. Aguantá."},
   {n:"Elevación de hombros", c:15, r:"{n} repeticiones", h:"Subí los hombros hacia las orejas, sostené 1 segundo y soltá."},
-  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En four-point, subí una pierna doblada hacia el techo."},
+  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En cuatro apoyos, subí una pierna doblada hacia el techo."},
   {n:"Estiramiento de espalda", c:30, r:"{n} segundos", h:"Entrelazá las manos, estirá los brazos al frente y redondeá la espalda."}
 ];
 
@@ -325,28 +373,34 @@ $("cAdd").onclick = () => {
   const n = $("cName").value.trim().slice(0, 40), c = Math.floor(+$("cQty").value);
   const u = ($("cUnit").value.trim() || "repeticiones").slice(0, 30).replace(/[{}]/g, "");
   const h = $("cHow").value.trim().slice(0, 120);
-  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty" ) : $("cName")).focus(); return; }
+  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty") : $("cName")).focus(); return; }
   if(custom.length >= 30) return;
   custom.push({n, c, r: "{n} " + u, h});
   ["cName", "cQty", "cHow"].forEach(id => $(id).value = "");
   renderCustom(); save();
 };
 
-/* ---------- Tema claro / oscuro con lógica corregida de Sol y Luna ---------- */
+/* ---------- Tema claro / oscuro dentro del menú ---------- */
 const mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
 const effTheme = () => theme || (mq && mq.matches ? "light" : "dark");
 function applyTheme(){
-  if(theme) document.documentElement.dataset.theme = theme; else delete document.documentElement.dataset.theme;
   const t = effTheme();
-  // Si está activo el modo oscuro (negro), mostramos el Sol (☀️) para cambiar a claro.
-  // Si está activo el modo claro (blanco), mostramos la Luna (🌙) para cambiar a oscuro.
-  $("themeBtn").textContent = t === "dark" ? "☀️" : "🌙";
-  $("themeBtn").setAttribute("aria-label", t === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+  if(t === "light") {
+    document.documentElement.dataset.theme = "light";
+    $("themeStatus").textContent = "Oscuro 🌙";
+  } else {
+    document.documentElement.dataset.theme = "dark";
+    $("themeStatus").textContent = "Claro ☀️";
+  }
   const m = document.querySelector('meta[name="theme-color"]');
   if(m) m.content = t === "dark" ? "#101820" : "#F2F5F3";
 }
-$("themeBtn").onclick = () => { theme = effTheme() === "dark" ? "light" : "dark"; applyTheme(); save(); };
-if(mq && mq.addEventListener) mq.addEventListener("change", applyTheme);
+$("toggleThemeMenuBtn").onclick = () => {
+  theme = effTheme() === "dark" ? "light" : "dark";
+  applyTheme();
+  save();
+};
+if(mq && mq.addEventListener) mq.addEventListener("change", () => { if(!theme) applyTheme(); });
 
 let deferred = null;
 const standalone = () => (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
@@ -424,11 +478,18 @@ const MUSIC = {
 };
 $("mSp").href = MUSIC.spotify; $("mYt").href = MUSIC.ytm;
 
-$("guideBtn").onclick = () => {
-  $("guide").hidden = !$("guide").hidden;
-  if(!$("guide").hidden && $("guide").scrollIntoView) $("guide").scrollIntoView();
+/* Vistas pantallas completas */
+$("mineBtn").onclick = () => { $("mineView").hidden = false; };
+$("mineClose").onclick = () => { $("mineView").hidden = true; };
+
+$("settingsBtn").onclick = () => { $("settingsView").hidden = false; };
+$("settingsClose").onclick = () => { $("settingsView").hidden = true; };
+
+$("guideMenuBtn").onclick = () => { 
+  $("settingsView").hidden = true; 
+  $("guide").hidden = false; 
 };
-$("guideClose").onclick = () => { $("guide").hidden = true; if(window.scrollTo) window.scrollTo(0, 0); };
+$("guideClose").onclick = () => { $("guide").hidden = true; };
 
 const toMin = v => { const [h, m] = (v || "").split(":").map(Number); return (isNaN(h) || isNaN(m)) ? null : h*60 + m; };
 function isActive(d){

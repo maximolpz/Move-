@@ -115,11 +115,12 @@ $("toggleThemeMenuBtn").onclick = () => {
 if(mq && mq.addEventListener) mq.addEventListener("change", () => { if(!theme) applyTheme(); });
 
 // ==========================================
-// 4. GESTIÓN DE INSTALACIÓN PWA
+// 4. GESTIÓN DE INSTALACIÓN PWA (BOTÓN VERDE)
 // ==========================================
-let deferred = null;
-const standalone = () => (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+$("installMenuBtn").onclick = () => { $("installView").hidden = false; };
+$("installClose").onclick = () => { $("installView").hidden = true; };
 
+let deferred = null;
 window.addEventListener("beforeinstallprompt", e => { 
   e.preventDefault(); 
   deferred = e; 
@@ -129,7 +130,6 @@ window.addEventListener("appinstalled", () => {
   deferred = null; 
 });
 
-// Listener para el nuevo botón dentro de configuración
 document.addEventListener("click", async e => {
   if (e.target && e.target.id === "installAndroidBtn") {
     if (deferred) {
@@ -245,7 +245,7 @@ $("guideMenuBtn").onclick = () => {
 };
 $("guideClose").onclick = () => { $("guide").hidden = true; };
 
-// Restriction Horaria
+// Restricción Horaria
 const toMin = v => { const [h, m] = (v || "").split(":").map(Number); return (isNaN(h) || isNaN(m)) ? null : h*60 + m; };
 function isActive(d){
   if(!$("hOn").checked) return true;

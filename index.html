@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Move!</title>
+<title>Pausa activa</title>
 <meta name="theme-color" content="#101820">
 <script>try{var t=JSON.parse(localStorage.getItem("pausa-activa-v1")).theme;if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,8 +59,10 @@
   #hRow input{flex:1;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--panel);color:var(--txt);font-size:1.05rem;font-weight:700;min-width:0}
   .acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
   .mini{padding:12px 16px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--txt);font-size:1rem;font-weight:700;cursor:pointer}
-  .top{display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px}
-  .top .mini{padding:8px 12px;font-size:.9rem}
+  .headerbar{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .headerbar .mini{padding:8px 11px;font-size:.88rem;white-space:nowrap}
+  .playlist-label{font-weight:700;margin-right:2px}
+  a.mini{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
   .hint{color:var(--mute);font-size:.9rem;line-height:1.4;margin:0 0 12px}
   .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
   .seg button{padding:14px 0;border:2px solid var(--line);background:transparent;color:var(--txt);font-size:.95rem;font-weight:700;border-radius:12px;cursor:pointer}
@@ -82,18 +84,71 @@
   .guide p,.guide li{font-size:.95rem;line-height:1.45}
   .guide p{margin:4px 0}
   .guide ul{padding-left:20px;margin:4px 0}
-  button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  button:focus-visible,a.mini:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+  input,button,a{ -webkit-tap-highlight-color:transparent }
+  button,a.mini{touch-action:manipulation}
   [hidden]{display:none!important}
   .foot{color:var(--mute);font-size:.8rem;line-height:1.4;margin-top:18px}
+
+  /* Ajustes generales para pantallas pequeñas */
+  @media (max-width:600px){
+    body{padding:14px 12px 28px}
+    main{max-width:520px}
+    .headerbar{justify-content:center;gap:7px;margin-bottom:14px}
+    .headerbar .mini{padding:9px 10px;font-size:.82rem}
+    .opts{gap:6px;margin-bottom:14px}
+    .opts button{padding:13px 2px;font-size:.84rem}
+    .seg{gap:6px;margin-bottom:16px}
+    .seg button{padding:13px 4px;font-size:.88rem}
+    .clock{padding:24px 12px;border-radius:17px}
+    .time{font-size:clamp(3rem,16vw,5rem)}
+    .card{padding:20px 14px;border-radius:17px}
+    .card .name{font-size:clamp(1.35rem,6vw,1.7rem)}
+    .ctl button{padding:16px;font-size:1.05rem}
+    .mini{min-height:42px;padding:10px 12px;font-size:.9rem}
+    .top .mini{padding:9px 10px}
+    .mine{padding:12px}
+    .fld{font-size:16px;min-width:0}
+    #custom{font-size:16px}
+    #hRow{gap:7px}
+    #hRow input{font-size:16px;padding:11px 8px}
+    .clist li{align-items:flex-start}
+    .clist li span{min-width:0;overflow-wrap:anywhere}
+    .guide,.imp{padding:12px}
+  }
+  @media (max-width:380px){
+    body{padding:10px 9px 24px}
+    .headerbar{gap:5px}
+    .headerbar .mini{padding:8px 8px;font-size:.76rem;border-radius:10px}
+    .playlist-label{font-size:.85rem}
+    .opts{gap:4px}
+    .opts button{font-size:.78rem;padding:12px 1px;border-radius:10px}
+    .seg{gap:4px}
+    .seg button{font-size:.82rem;padding:12px 2px}
+    .clock{padding:22px 9px}
+    .time{font-size:clamp(2.7rem,15vw,3.8rem)}
+    .row2{grid-template-columns:1fr}
+    .clist li{gap:6px}
+    .clist .mini{padding:8px 10px;min-height:38px}
+  }
+  @media (max-width:340px){
+    .headerbar{justify-content:flex-start}
+    .headerbar .mini{padding:7px 7px;font-size:.72rem}
+    .playlist-label{margin-right:0}
+    .opts button{font-size:.73rem}
+  }
 </style>
 </head>
 <body>
 <main>
-  <div class="top">
+  <header class="headerbar" aria-label="Accesos rápidos">
+    <span class="playlist-label">Playlist:</span>
+    <a class="mini" id="mSp" target="_blank" rel="noopener noreferrer">Spotify</a>
+    <a class="mini" id="mYt" target="_blank" rel="noopener noreferrer">YouTube</a>
     <button class="mini" id="guideBtn">Guía</button>
     <button class="mini" id="install" hidden>Instalar app</button>
     <button class="mini" id="theme">Tema claro</button>
-  </div>
+  </header>
   <p class="hint" id="iosHint" hidden>En Safari: tocá Compartir y elegí "Agregar a pantalla de inicio".</p>
 
   <section class="imp" id="imp" hidden>
@@ -152,6 +207,9 @@
       <li>Si aceptás las notificaciones, al sonar también ves el ejercicio en la pantalla bloqueada. En iPhone solo funcionan con la app instalada.</li>
       <li>Si aparece el aviso "el audio de fondo no arrancó", el gong sonará solo con la pantalla encendida.</li>
     </ul>
+
+    <h3>Música</h3>
+    <p>En la fila <b>Playlist</b>, arriba de todo, los botones <b>Spotify</b> y <b>YouTube</b> abren una playlist en la app correspondiente. Ojo: si ponés música, el teléfono puede pausar el audio de fondo de esta app y la alarma podría no sonar con la pantalla bloqueada. Probalo antes de confiar en él.</p>
 
     <h3>Qué se guarda</h3>
     <p>En tu navegador quedan guardados el intervalo, el horario, la dificultad, el tema y tus ejercicios. Si borrás los datos del sitio en el navegador, se pierden.</p>
@@ -404,6 +462,13 @@ $("impOk").onclick = () => {
     ? "Listo: se agregaron " + added + (added === 1 ? " ejercicio." : " ejercicios.")
     : "No se agregó ninguno (ya los tenías o llegaste al máximo de 30).";
 };
+
+/* ---------- Música: cambiá estos dos links por tus playlists favoritas ---------- */
+const MUSIC = {
+  spotify: "https://open.spotify.com/playlist/0Mkx8ts6zgaIWOmQQJzndr",
+  ytm: "https://music.youtube.com/search?q=workout+playlist"
+};
+$("mSp").href = MUSIC.spotify; $("mYt").href = MUSIC.ytm;
 
 /* ---------- Guía ---------- */
 $("guideBtn").onclick = () => {

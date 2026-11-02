@@ -1,7 +1,8 @@
 {
   "name": "Pausa activa",
   "short_name": "Pausa activa",
-  "start_url": "./",
+  "description": "Aplicación para recordatorios de pausas activas y ejercicios cortos.",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

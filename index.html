@@ -35,104 +35,115 @@
     }
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--txt); font-family: "Helvetica Neue", Arial, system-ui, sans-serif; }
-  body { display: flex; justify-content: center; padding: 20px 16px 40px; }
-  main { width: 100%; max-width: 480px; }
-  
-  /* Ajustes generales de botones y grillas para mejor proporción */
-  .opts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
-  .opts button { padding: 12px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .88rem; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all .15s ease; }
+  html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--txt); font-family: "Helvetica Neue", Arial, system-ui, sans-serif; overflow-x: hidden; }
+  body { display: flex; justify-content: center; padding: 12px 12px 30px; }
+  main { width: 100%; max-width: 440px; }
+
+  /* Barra superior limpia y ordenada */
+  .headerbar { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
+  .header-left, .header-right { display: flex; align-items: center; gap: 6px; }
+  .headerbar .mini { padding: 7px 10px; font-size: .8rem; white-space: nowrap; }
+  a.mini { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+  #themeBtn { font-size: 1rem; padding: 6px 9px; line-height: 1; }
+
+  .opts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
+  .opts button { padding: 10px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .82rem; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all .15s ease; }
   .opts button[aria-pressed="true"] { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); }
   .opts button:disabled { opacity: .45; cursor: not-allowed; }
 
-  .clock { background: var(--panel); border-radius: 22px; padding: 26px 16px; text-align: center; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-  .time { font-size: clamp(3.4rem, 18vw, 5.4rem); font-weight: 900; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
-  .bar { height: 8px; background: var(--line); border-radius: 4px; margin: 20px 6px 0; overflow: hidden; }
+  .clock { background: var(--panel); border-radius: 18px; padding: 20px 14px; text-align: center; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  .time { font-size: clamp(3rem, 16vw, 4.8rem); font-weight: 900; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 16px 4px 0; overflow: hidden; }
   .bar i { display: block; height: 100%; width: 0; background: var(--acc); transition: width .3s linear; }
-  .status { margin-top: 12px; color: var(--mute); font-size: .95rem; min-height: 1.3em; }
+  .status { margin-top: 10px; color: var(--mute); font-size: .88rem; min-height: 1.2em; }
 
-  .card { border: 2px dashed var(--line); border-radius: 20px; padding: 22px 18px; text-align: center; margin-bottom: 14px; background: var(--panel); }
+  .card { border: 2px dashed var(--line); border-radius: 18px; padding: 18px 14px; text-align: center; margin-bottom: 12px; background: var(--panel); }
   .card.on { border: 2px solid var(--acc); background: var(--on); }
-  .card .reps { font-size: 2.8rem; font-weight: 900; color: var(--acc); line-height: 1; }
-  .card .name { font-size: 1.6rem; font-weight: 800; margin: 6px 0; }
-  .card .how { color: var(--mute); font-size: .98rem; line-height: 1.4; }
+  .card .reps { font-size: 2.4rem; font-weight: 900; color: var(--acc); line-height: 1; }
+  .card .name { font-size: 1.4rem; font-weight: 800; margin: 6px 0; }
+  .card .how { color: var(--mute); font-size: .92rem; line-height: 1.35; }
   .card.ring { animation: pulse .5s steps(2) infinite; }
   @keyframes pulse { 50% { background: var(--ring); } }
   @media (prefers-reduced-motion: reduce) { .card.ring { animation: none; } }
 
-  .ctl { display: grid; gap: 10px; margin-bottom: 16px; }
-  .ctl button { padding: 16px; border: 0; border-radius: 14px; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+  .ctl { display: grid; gap: 8px; margin-bottom: 12px; }
+  .ctl button { padding: 14px; border: 0; border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer; }
   #go { background: var(--acc); color: var(--acc-txt); }
   #stop { background: var(--stop); color: #fff; }
 
   #custom:disabled { opacity: .45; cursor: not-allowed; }
-  #custom { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--txt); font-size: 1.05rem; font-weight: 700; }
+  #custom { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--txt); font-size: 1rem; font-weight: 700; }
 
-  .sched { margin-bottom: 18px; background: var(--panel); padding: 14px; border-radius: 14px; border: 2px solid var(--line); }
-  .chk { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 700; cursor: pointer; }
-  .chk input { width: 20px; height: 20px; accent-color: var(--acc); }
-  #hRow { display: flex; align-items: center; gap: 10px; margin-top: 10px; color: var(--mute); }
-  #hRow input { flex: 1; padding: 10px; border-radius: 10px; border: 2px solid var(--line); background: var(--bg); color: var(--txt); font-size: 1rem; font-weight: 700; min-width: 0; }
+  .sched { margin-bottom: 12px; background: var(--panel); padding: 12px; border-radius: 12px; border: 2px solid var(--line); }
+  .chk { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 700; cursor: pointer; }
+  .chk input { width: 18px; height: 18px; accent-color: var(--acc); }
+  #hRow { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--mute); }
+  #hRow input { flex: 1; padding: 8px; border-radius: 8px; border: 2px solid var(--line); background: var(--bg); color: var(--txt); font-size: .95rem; font-weight: 700; min-width: 0; }
 
-  .acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
-  .mini { padding: 10px 14px; border-radius: 12px; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .92rem; font-weight: 700; cursor: pointer; }
-  
-  /* Barra superior ajustada */
-  .headerbar { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .headerbar .mini { padding: 8px 10px; font-size: .84rem; white-space: nowrap; }
-  .playlist-label { font-weight: 700; font-size: .9rem; margin-right: 2px; color: var(--mute); }
-  a.mini { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
-  
-  #themeBtn { font-size: 1.1rem; padding: 6px 10px; line-height: 1; }
+  .acts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px; }
+  .mini { padding: 9px 12px; border-radius: 10px; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .88rem; font-weight: 700; cursor: pointer; }
 
-  .hint { color: var(--mute); font-size: .9rem; line-height: 1.4; margin: 0 0 12px; }
+  .hint { color: var(--mute); font-size: .85rem; line-height: 1.35; margin: 0 0 10px; }
   
-  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-  .seg button { padding: 12px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .9rem; font-weight: 700; border-radius: 12px; cursor: pointer; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+  .seg button { padding: 10px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .85rem; font-weight: 700; border-radius: 10px; cursor: pointer; }
   .seg button[aria-pressed="true"] { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); }
 
-  .mine { border: 2px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 16px; background: var(--panel); }
-  .mine summary { font-weight: 800; cursor: pointer; font-size: 1rem; }
-  .fld { width: 100%; padding: 11px; margin-top: 8px; border-radius: 10px; border: 2px solid var(--line); background: var(--bg); color: var(--txt); font-size: .95rem; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  #cAdd { margin-top: 10px; background: var(--acc); color: var(--acc-txt); border-color: var(--acc); width: 100%; }
-  .clist { list-style: none; padding: 0; margin: 12px 0 0; }
-  .clist li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); }
+  /* Secciones desplegables estilizadas y compactas para evitar desbordamientos */
+  .mine, .imp, .guide { border: 2px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 12px; background: var(--panel); }
+  .mine summary { font-weight: 800; cursor: pointer; font-size: .95rem; outline: none; }
+  .fld { width: 100%; padding: 10px; margin-top: 6px; border-radius: 8px; border: 2px solid var(--line); background: var(--bg); color: var(--txt); font-size: .9rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #cAdd { margin-top: 8px; background: var(--acc); color: var(--acc-txt); border-color: var(--acc); width: 100%; }
+  .clist { list-style: none; padding: 0; margin: 10px 0 0; max-height: 150px; overflow-y: auto; }
+  .clist li { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 6px 0; border-top: 1px solid var(--line); font-size: .88rem; }
 
-  .imp, .guide { border: 2px solid var(--acc); border-radius: 14px; padding: 16px; margin-bottom: 16px; background: var(--panel); }
-  .imp label { display: flex; gap: 10px; align-items: center; padding: 6px 0; cursor: pointer; }
-  .imp input { width: 20px; height: 20px; accent-color: var(--acc); }
-  #impOk, #cShare { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); }
-  #cShare { margin-top: 12px; width: 100%; }
+  .imp { border-color: var(--acc); }
+  .imp label { display: flex; gap: 8px; align-items: center; padding: 4px 0; cursor: pointer; font-size: .9rem; }
+  .imp input { width: 18px; height: 18px; accent-color: var(--acc); }
+  #impOk, #cShare { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); width: 100%; }
+  #cShare { margin-top: 10px; }
 
-  .guide h2 { margin: 0 0 8px; font-size: 1.15rem; }
-  .guide h3 { margin: 14px 0 4px; font-size: .98rem; color: var(--acc); }
-  .guide p, .guide li { font-size: .92rem; line-height: 1.4; }
-  .guide p { margin: 4px 0; }
-  .guide ul { padding-left: 18px; margin: 4px 0; }
+  .guide h2 { margin: 0 0 6px; font-size: 1.05rem; }
+  .guide h3 { margin: 10px 0 2px; font-size: .92rem; color: var(--acc); }
+  .guide p, .guide li { font-size: .88rem; line-height: 1.35; }
+  .guide p { margin: 2px 0; }
+  .guide ul { padding-left: 16px; margin: 2px 0; }
 
-  button:focus-visible, a.mini:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
+  /* Banner flotante discreto para instalar la app (reubicado) */
+  .install-banner { display: flex; align-items: center; justify-content: space-between; background: var(--panel); border: 2px solid var(--acc); padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; gap: 10px; }
+  .install-banner span { font-size: .88rem; font-weight: 700; }
+
+  button:focus-visible, a.mini:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
   input, button, a { -webkit-tap-highlight-color: transparent; }
   button, a.mini { touch-action: manipulation; }
   [hidden] { display: none !important; }
 
-  @media (max-width: 600px) {
-    body { padding: 12px 10px 24px; }
+  @media (max-width: 480px) {
+    body { padding: 8px 8px 20px; }
     .fld, #custom, #hRow input { font-size: 16px; } /* Evita zoom automático en iOS */
   }
 </style>
 </head>
 <body>
 <main>
+  <!-- Barra superior optimizada: Spotify/YouTube a la izquierda, Guía y Tema a la derecha -->
   <header class="headerbar" aria-label="Accesos rápidos">
-    <span class="playlist-label">Música:</span>
-    <a class="mini" id="mSp" target="_blank" rel="noopener noreferrer">Spotify</a>
-    <a class="mini" id="mYt" target="_blank" rel="noopener noreferrer">YouTube</a>
-    <button class="mini" id="guideBtn">Guía</button>
-    <button class="mini" id="install" hidden>Instalar</button>
-    <button class="mini" id="themeBtn" aria-label="Cambiar tema">🌙</button>
+    <div class="header-left">
+      <a class="mini" id="mSp" target="_blank" rel="noopener noreferrer">Spotify</a>
+      <a class="mini" id="mYt" target="_blank" rel="noopener noreferrer">YouTube</a>
+    </div>
+    <div class="header-right">
+      <button class="mini" id="guideBtn">Guía</button>
+      <button class="mini" id="themeBtn" aria-label="Cambiar tema">🌙</button>
+    </div>
   </header>
-  
+
+  <!-- Banner de instalación reubicado de forma cómoda -->
+  <div class="install-banner" id="installBanner" hidden>
+    <span>¡Instalá Move! en tu dispositivo</span>
+    <button class="mini" id="install" style="background:var(--acc); color:var(--acc-txt); border:none;">Instalar</button>
+  </div>
   <p class="hint" id="iosHint" hidden>En Safari: tocá Compartir y elegí "Agregar a pantalla de inicio".</p>
 
   <section class="imp" id="imp" hidden>
@@ -146,30 +157,17 @@
 
   <section class="guide" id="guide" hidden>
     <h2>Guía de Move!</h2>
-    <p>Esta app te avisa cada cierto tiempo para que te muevas un poco: cuando termina la cuenta regresiva suena un gong y te muestra un ejercicio corto elegido al azar. Después el ciclo arranca de nuevo solo, hasta que lo detengas.</p>
+    <p>Esta app te avisa cada cierto tiempo para que te muevas un poco: cuando termina la cuenta regresiva suena un gong y te muestra un ejercicio corto. El ciclo arranca de nuevo solo hasta que lo detengas.</p>
 
     <h3>Empezar y detener</h3>
     <ul>
-      <li>Elegí cada cuánto querés el aviso: 15 min, 30 min, 1 h, 1 h 30, o "Otro" para escribir tus propios minutos (de 1 a 120).</li>
-      <li>Tocá <b>Empezar</b>. El reloj baja; al llegar a cero suena el gong una vez y aparece el ejercicio.</li>
-      <li>Cuando termina el gong, la cuenta vuelve a empezar sola. <b>Detener todo</b> corta el ciclo.</li>
+      <li>Elegí el intervalo: 15 min, 30 min, 1 h, 1 h 30, o "Otro" (de 1 a 120 min).</li>
+      <li>Tocá <b>Empezar</b>. Al llegar a cero suena el gong y aparece el ejercicio.</li>
+      <li><b>Detener todo</b> corta el ciclo por completo.</li>
     </ul>
 
-    <h3>El ejercicio</h3>
-    <p>Muestra la cantidad, el nombre y cómo se hace. El botón <b>Otro ejercicio</b> lo cambia por otro si ese no lo podés hacer en ese momento.</p>
-
-    <h3>Dificultad</h3>
-    <p>Básico, Medio e Intenso ajustan las cantidades (aproximadamente 70 %, 100 % y 150 %). El cambio se aplica al siguiente ejercicio que salga.</p>
-
-    <h3>Solo en horario</h3>
-    <p>Si activás la casilla, elegís desde qué hora hasta qué hora querés avisos (puede cruzar la medianoche, por ejemplo de 22:00 a 06:00).</p>
-
-    <h3>Mis ejercicios</h3>
-    <ul>
-      <li>Abrí "Mis ejercicios" y cargá nombre, cantidad, unidad y cómo se hace.</li>
-      <li>Se mezclan con los de la app en el sorteo y se ajustan con la dificultad. Podés tener hasta 30.</li>
-      <li>Se guardan solo en tu teléfono y podés compartirlos mediante un link.</li>
-    </ul>
+    <h3>Dificultad y Mis Ejercicios</h3>
+    <p>Básico, Medio e Intenso escalan las cantidades automáticamente. Podés cargar tus propios ejercicios (hasta 30) y compartirlos mediante un link.</p>
 
     <div class="acts"><button class="mini" id="guideClose">Cerrar guía</button></div>
   </section>
@@ -233,10 +231,10 @@
     </div>
     <input class="fld" id="cHow" maxlength="120" placeholder="Cómo se hace (opcional)" aria-label="Cómo se hace">
     <button class="mini" id="cAdd">Agregar ejercicio</button>
-    <p class="hint" id="cEmpty" style="margin-top:10px">Todavía no agregaste ninguno.</p>
+    <p class="hint" id="cEmpty" style="margin-top:8px">Todavía no agregaste ninguno.</p>
     <ul class="clist" id="cList"></ul>
     <button class="mini" id="cShare" hidden>Compartir mis ejercicios</button>
-    <p class="hint" id="shareMsg" style="margin-top:10px" hidden></p>
+    <p class="hint" id="shareMsg" style="margin-top:8px" hidden></p>
     <input class="fld" id="shareLink" readonly hidden aria-label="Link para compartir">
   </details>
 </main>
@@ -259,7 +257,7 @@ const EXERCISES = [
   {n:"Escaladores", c:20, r:"{n} en total", h:"En posición de flexión, llevá una rodilla al pecho y alterná."},
   {n:"Sentadilla de pared", c:30, r:"{n} segundos", h:"Espalda contra la pared, muslos paralelos al piso. Aguantá."},
   {n:"Elevación de hombros", c:15, r:"{n} repeticiones", h:"Subí los hombros hacia las orejas, sostené 1 segundo y soltá."},
-  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En cuatro apoyos, subí una pierna doblada hacia el techo."},
+  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En four-point, subí una pierna doblada hacia el techo."},
   {n:"Estiramiento de espalda", c:30, r:"{n} segundos", h:"Entrelazá las manos, estirá los brazos al frente y redondeá la espalda."}
 ];
 
@@ -327,22 +325,23 @@ $("cAdd").onclick = () => {
   const n = $("cName").value.trim().slice(0, 40), c = Math.floor(+$("cQty").value);
   const u = ($("cUnit").value.trim() || "repeticiones").slice(0, 30).replace(/[{}]/g, "");
   const h = $("cHow").value.trim().slice(0, 120);
-  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty") : $("cName")).focus(); return; }
+  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty" ) : $("cName")).focus(); return; }
   if(custom.length >= 30) return;
   custom.push({n, c, r: "{n} " + u, h});
   ["cName", "cQty", "cHow"].forEach(id => $(id).value = "");
   renderCustom(); save();
 };
 
-/* ---------- Tema claro / oscuro con Sol (☀️) y Luna (🌙) ---------- */
+/* ---------- Tema claro / oscuro con lógica corregida de Sol y Luna ---------- */
 const mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
 const effTheme = () => theme || (mq && mq.matches ? "light" : "dark");
 function applyTheme(){
   if(theme) document.documentElement.dataset.theme = theme; else delete document.documentElement.dataset.theme;
   const t = effTheme();
-  // Si está en dark, mostramos el sol para cambiar a claro; si está en light, mostramos la luna para cambiar a oscuro.
+  // Si está activo el modo oscuro (negro), mostramos el Sol (☀️) para cambiar a claro.
+  // Si está activo el modo claro (blanco), mostramos la Luna (🌙) para cambiar a oscuro.
   $("themeBtn").textContent = t === "dark" ? "☀️" : "🌙";
-  $("themeBtn"].setAttribute("aria-label", t === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+  $("themeBtn").setAttribute("aria-label", t === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
   const m = document.querySelector('meta[name="theme-color"]');
   if(m) m.content = t === "dark" ? "#101820" : "#F2F5F3";
 }
@@ -354,16 +353,20 @@ const standalone = () => (window.matchMedia && window.matchMedia("(display-mode:
 const ua = navigator.userAgent || "";
 const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
 if(window.addEventListener){
-  window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; if(!standalone()) $("install").hidden = false; });
-  window.addEventListener("appinstalled", () => { deferred = null; $("install").hidden = true; $("iosHint").hidden = true; });
+  window.addEventListener("beforeinstallprompt", e => { 
+    e.preventDefault(); 
+    deferred = e; 
+    if(!standalone()) $("installBanner").hidden = false; 
+  });
+  window.addEventListener("appinstalled", () => { deferred = null; $("installBanner").hidden = true; $("iosHint").hidden = true; });
 }
-if(isIOS && !standalone()) $("install").hidden = false;
+if(isIOS && !standalone()) $("iosHint").hidden = false;
 $("install").onclick = async () => {
   if(deferred){
     deferred.prompt();
     try{ await deferred.userChoice; }catch(e){}
-    deferred = null; $("install").hidden = true;
-  } else if(isIOS) $("iosHint").hidden = !$("iosHint").hidden;
+    deferred = null; $("installBanner").hidden = true;
+  }
 };
 
 const b64e = o => btoa(String.fromCharCode.apply(null, new TextEncoder().encode(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -457,7 +460,7 @@ function lockOptions(v){
 
 const B64 = {
   gong:"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",
-  sil:"//NAxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEWwAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV=="
+  sil:"//NAxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEWwAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV=="
 };
 const FRAME_S = 576/22050, UNIT_FRAMES = 40;
 const toBytes = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));

@@ -125,7 +125,6 @@
   .menu-options { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
   .menu-options button { padding: 16px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--txt); font-size: 1rem; font-weight: 700; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; }
 
-  /* Subpanel de Horario dentro de configuración */
   .sub-panel { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 14px; margin-top: 6px; }
   .sub-panel .chk { display: flex; align-items: center; gap: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; }
   .sub-panel .chk input { width: 18px; height: 18px; accent-color: var(--acc); }
@@ -159,12 +158,15 @@
     </div>
   </header>
 
-  <!-- Banner de instalación -->
+  <!-- Banner de instalación inteligente (oculto en iPhone para evitar duplicidad) -->
   <div class="install-banner" id="installBanner" hidden>
     <span>¡Instalá Move! en tu dispositivo</span>
     <button class="mini" id="install" style="background:var(--acc); color:var(--acc-txt); border:none;">Instalar</button>
   </div>
-  <p class="hint" id="iosHint" hidden>En Safari: tocá Compartir y elegí "Agregar a pantalla de inicio".</p>
+  <!-- Instrucción específica limpia para iOS / Safari -->
+  <div class="install-banner" id="iosHint" hidden style="border-color: var(--line);">
+    <span>📱 En Safari: tocá <b>Compartir</b> y elegí <b>"Agregar a pantalla de inicio"</b>.</span>
+  </div>
 
   <!-- Sección de Importación -->
   <section class="imp" id="imp" hidden>
@@ -193,7 +195,6 @@
       </button>
     </div>
 
-    <!-- Sección de Horario Activo movida al menú de configuración -->
     <div style="margin-top: 20px;">
       <h3 style="font-size: 1rem; color: var(--acc); margin-bottom: 6px;">⏰ Horario de Actividad</h3>
       <div class="sub-panel">
@@ -208,7 +209,7 @@
     </div>
   </section>
 
-  <!-- Vista a pantalla completa: Guía de uso mejorada y detallada -->
+  <!-- Vista a pantalla completa: Guía de uso -->
   <section class="fullscreen-view" id="guide" hidden>
     <div class="fullscreen-header">
       <h2>Guía de Move!</h2>
@@ -239,7 +240,7 @@
     </div>
   </section>
 
-  <!-- Vista a pantalla completa: Mis Ejercicios con explicación clara inicial -->
+  <!-- Vista a pantalla completa: Mis Ejercicios con explicación clara para compartir -->
   <section class="fullscreen-view" id="mineView" hidden>
     <div class="fullscreen-header">
       <h2>Mis Ejercicios 📒</h2>
@@ -248,6 +249,12 @@
     <div>
       <p class="hint" style="margin-bottom: 14px;">Acá podés crear y gestionar tu propia lista personalizada de ejercicios (hasta 30). Los ejercicios que agregues acá se sumarán automáticamente al bolillero general cuando suene la alarma de movimiento.</p>
       
+      <!-- Explicación clara de cómo compartir -->
+      <div style="background: var(--panel); border: 2px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 14px;">
+        <strong style="font-size: .9rem; color: var(--acc); display: block; margin-bottom: 4px;">📤 ¿Cómo compartir tus ejercicios?</strong>
+        <p class="hint" style="margin: 0;">Cuando tengas al menos un ejercicio cargado, aparecera el botón <b>"Compartir mis ejercicios"</b>. Al presionarlo, la app generará un enlace único con tu lista. Podrás enviarlo por WhatsApp, correo o redes sociales a quien quieras. Cuando la otra persona abra el link, la app le preguntará automáticamente qué ejercicios desea importar a su propia lista.</p>
+      </div>
+
       <input class="fld" id="cName" maxlength="40" placeholder="Nombre (ej.: Burpees)" aria-label="Nombre del ejercicio">
       <div class="row2">
         <input class="fld" id="cQty" type="number" inputmode="numeric" min="1" max="500" placeholder="Cantidad" aria-label="Cantidad">
@@ -263,7 +270,7 @@
     </div>
   </section>
 
-  <!-- Controles principales de la App (Pantalla Principal Limpia) -->
+  <!-- Controles principales de la App -->
   <div class="opts" role="group" aria-label="Cada cuánto tiempo">
     <button data-min="15" aria-pressed="true">15 min</button>
     <button data-min="30" aria-pressed="false">30 min</button>
@@ -425,15 +432,22 @@ let deferred = null;
 const standalone = () => (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
 const ua = navigator.userAgent || "";
 const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+
 if(window.addEventListener){
   window.addEventListener("beforeinstallprompt", e => { 
     e.preventDefault(); 
     deferred = e; 
-    if(!standalone()) $("installBanner").hidden = false; 
+    if(!standalone() && !isIOS) $("installBanner").hidden = false; 
   });
   window.addEventListener("appinstalled", () => { deferred = null; $("installBanner").hidden = true; $("iosHint").hidden = true; });
 }
-if(isIOS && !standalone()) $("iosHint").hidden = false;
+
+/* Manejo inteligente de visualización de instalación según dispositivo */
+if(isIOS && !standalone()){
+  $("iosHint").hidden = false; // Muestra solo el texto de Safari en iPhone
+  $("installBanner").hidden = true;
+}
+
 $("install").onclick = async () => {
   if(deferred){
     deferred.prompt();

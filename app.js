@@ -115,46 +115,32 @@ $("toggleThemeMenuBtn").onclick = () => {
 if(mq && mq.addEventListener) mq.addEventListener("change", () => { if(!theme) applyTheme(); });
 
 // ==========================================
-// 4. DETECCIÓN PWA E INSTALACIÓN (iOS / ANDROID)
+// 4. GESTIÓN DE INSTALACIÓN PWA
 // ==========================================
 let deferred = null;
 const standalone = () => (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
-const ua = navigator.userAgent || "";
-const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
-const dismissedIos = localStorage.getItem("move_hide_ios_hint") === "true";
 
-if (isIOS && !standalone() && !dismissedIos) {
-  $("iosHint").hidden = false;
-  $("installBanner").hidden = true;
-} else {
-  $("iosHint").hidden = true;
-  window.addEventListener("beforeinstallprompt", e => { 
-    e.preventDefault(); 
-    deferred = e; 
-    if (!standalone()) $("installBanner").hidden = false; 
-  });
-}
+window.addEventListener("beforeinstallprompt", e => { 
+  e.preventDefault(); 
+  deferred = e; 
+});
 
 window.addEventListener("appinstalled", () => { 
   deferred = null; 
-  $("installBanner").hidden = true; 
-  $("iosHint").hidden = true; 
 });
 
-$("install").onclick = async () => {
-  if(deferred){
-    deferred.prompt();
-    try{ await deferred.userChoice; }catch(e){}
-    deferred = null; $("installBanner").hidden = true;
+// Listener para el nuevo botón dentro de configuración
+document.addEventListener("click", async e => {
+  if (e.target && e.target.id === "installAndroidBtn") {
+    if (deferred) {
+      deferred.prompt();
+      try { await deferred.userChoice; } catch(err){}
+      deferred = null;
+    } else {
+      alert("Si ya tienes la app instalada o tu navegador no permite la instalación automática, recuerda que puedes usar la opción 'Agregar a pantalla de inicio' desde el menú del navegador.");
+    }
   }
-};
-
-if ($("closeIosHint")) {
-  $("closeIosHint").onclick = () => {
-    $("iosHint").hidden = true;
-    localStorage.setItem("move_hide_ios_hint", "true");
-  };
-}
+});
 
 // ==========================================
 // 5. MIS EJERCICIOS & COMPARTIR POR LINK

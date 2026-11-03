@@ -18,7 +18,7 @@ const EXERCISES = [
   {n:"Escaladores", c:20, r:"{n} en total", h:"En posición de flexión, llevá una rodilla al pecho y alterná."},
   {n:"Sentadilla de pared", c:30, r:"{n} segundos", h:"Espalda contra la pared, muslos paralelos al piso. Aguantá."},
   {n:"Elevación de hombros", c:15, r:"{n} repeticiones", h:"Subí los hombros hacia las orejas, sostené 1 segundo y soltá."},
-  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En cuatro apoyos, subí una pierna doblada hacia el techo."},
+  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En four apoyos, subí una pierna doblada hacia el techo."},
   {n:"Estiramiento de espalda", c:30, r:"{n} segundos", h:"Entrelazá las manos, estirá los brazos al frente y redondeá la espalda."}
 ];
 
@@ -115,10 +115,14 @@ $("toggleThemeMenuBtn").onclick = () => {
 if(mq && mq.addEventListener) mq.addEventListener("change", () => { if(!theme) applyTheme(); });
 
 // ==========================================
-// 4. GESTIÓN DE INSTALACIÓN PWA (BOTÓN VERDE)
+// 4. GESTIÓN DE INSTALACIÓN PWA
 // ==========================================
-$("installMenuBtn").onclick = () => { $("installView").hidden = false; };
-$("installClose").onclick = () => { $("installView").hidden = true; };
+if ($("installMenuBtn")) {
+  $("installMenuBtn").onclick = () => { $("installView").hidden = false; };
+}
+if ($("installClose")) {
+  $("installClose").onclick = () => { $("installView").hidden = true; };
+}
 
 let deferred = null;
 window.addEventListener("beforeinstallprompt", e => { 
@@ -130,8 +134,9 @@ window.addEventListener("appinstalled", () => {
   deferred = null; 
 });
 
-document.addEventListener("click", async e => {
-  if (e.target && e.target.id === "installAndroidBtn") {
+const androidBtn = $("installAndroidBtn");
+if (androidBtn) {
+  androidBtn.onclick = async () => {
     if (deferred) {
       deferred.prompt();
       try { await deferred.userChoice; } catch(err){}
@@ -139,8 +144,8 @@ document.addEventListener("click", async e => {
     } else {
       alert("Si ya tienes la app instalada o tu navegador no permite la instalación automática, recuerda que puedes usar la opción 'Agregar a pantalla de inicio' desde el menú del navegador.");
     }
-  }
-});
+  };
+}
 
 // ==========================================
 // 5. MIS EJERCICIOS & COMPARTIR POR LINK
@@ -148,7 +153,8 @@ document.addEventListener("click", async e => {
 const pool = () => EXERCISES.concat(custom);
 
 function renderCustom(){
-  const ul = $("cList"); ul.textContent = "";
+  const ul = $("cList"); if(!ul) return;
+  ul.textContent = "";
   custom.forEach((e, i) => {
     const li = document.createElement("li"), t = document.createElement("span"), b = document.createElement("button");
     t.textContent = e.n + " · " + repsText(e);
@@ -164,7 +170,7 @@ $("cAdd").onclick = () => {
   const n = $("cName").value.trim().slice(0, 40), c = Math.floor(+$("cQty").value);
   const u = ($("cUnit").value.trim() || "repeticiones").slice(0, 30).replace(/[{}]/g, "");
   const h = $("cHow").value.trim().slice(0, 120);
-  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty" ) : $("cName")).focus(); return; }
+  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty") : $("cName")).focus(); return; }
   if(custom.length >= 30) return;
   custom.push({n, c, r: "{n} " + u, h});
   ["cName", "cQty", "cHow"].forEach(id => $(id).value = "");
@@ -228,8 +234,8 @@ $("impOk").onclick = () => {
 // 6. ENLACES Y NAVEGACIÓN DE PANTALLAS
 // ==========================================
 const MUSIC = {
-  spotify: "https://open.spotify.com/intl-es/album/0NVktHht8xOeTHNd1LNHcL?si=czRXqQnEQSuCHX1Z34dGzw",
-  ytm: "https://music.youtube.com/watch?v=M6BITChPuMw&list=OLAK5uy_liTYhgzZN0r-Qt-hMAXK3b6yjFe-RL4aY"
+  spotify: "https://open.spotify.com/playlist/0Mkx8ts6zgaIWOmQQJzndr",
+  ytm: "https://music.youtube.com/search?q=workout+playlist"
 };
 $("mSp").href = MUSIC.spotify; $("mYt").href = MUSIC.ytm;
 
@@ -440,7 +446,7 @@ function stopAll(){
 }
 
 // ==========================================
-// 9. INICIALIZACIÓN (EVENTOS DE LOS BOTONES GO/STOP)
+// 9. INICIALIZACIÓN DIRECTA DE BOTONES
 // ==========================================
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
   navigator.serviceWorker.register("sw.js").catch(() => {});
@@ -450,6 +456,11 @@ load();
 checkImport();
 if(window.addEventListener) window.addEventListener("hashchange", checkImport);
 
-// Conexión explícita y directa de los botones Empezar y Detener todo
-$("go").onclick = () => begin();
-$("stop").onclick = stopAll;
+// Asignación explícita y directa de eventos click
+window.addEventListener("DOMContentLoaded", () => {
+  const goBtn = $("go");
+  const stopBtn = $("stop");
+  
+  if (goBtn) goBtn.onclick = () => begin();
+  if (stopBtn) stopBtn.onclick = () => stopAll();
+});

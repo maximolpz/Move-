@@ -449,5 +449,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
 load();
 checkImport();
 if(window.addEventListener) window.addEventListener("hashchange", checkImport);
+
+// Aseguramos que los botones principales conecten correctamente
 $("go").onclick = () => begin();
 $("stop").onclick = stopAll;

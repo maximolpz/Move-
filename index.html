@@ -47,7 +47,7 @@
   
   .icon-btn { font-size: 1.1rem; padding: 5px 9px; line-height: 1; }
 
-  .opts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
+  .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
   .opts button { padding: 10px 0; border: 2px solid var(--line); background: transparent; color: var(--txt); font-size: .82rem; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all .15s ease; }
   .opts button[aria-pressed="true"] { background: var(--acc); color: var(--acc-txt); border-color: var(--acc); }
   .opts button:disabled { opacity: .45; cursor: not-allowed; }
@@ -284,7 +284,6 @@
     <button data-min="15" aria-pressed="true">15 min</button>
     <button data-min="30" aria-pressed="false">30 min</button>
     <button data-min="60" aria-pressed="false">1 h</button>
-    <button data-min="90" aria-pressed="false">1 h 30</button>
     <button data-min="custom" aria-pressed="false">Otro</button>
   </div>
   

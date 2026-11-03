@@ -269,7 +269,7 @@ function load(){
     .filter(e => e && typeof e.n === "string" && Number.isFinite(e.c) && typeof e.r === "string").slice(0, 30)
     .map(e => ({n:e.n.slice(0,40), c:e.c, r:e.r.slice(0,40), h:typeof e.h === "string" ? e.h.slice(0,120) : ""}));
   applyTheme(); renderCustom(); selectLvl(d.lvl);
-  selectOpt(["15","30","60","90","custom"].includes(d.sel) ? d.sel : "15");
+  selectOpt(["15","30","60","custom"].includes(d.sel) ? d.sel : "15");
 }
 
 function lockOptions(v){

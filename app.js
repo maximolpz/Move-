@@ -446,7 +446,7 @@ function stopAll(){
 }
 
 // ==========================================
-// 9. INICIALIZACIÓN DIRECTA DE BOTONES
+// 9. INICIALIZACIÓN DIRECTA
 // ==========================================
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
   navigator.serviceWorker.register("sw.js").catch(() => {});
@@ -456,11 +456,6 @@ load();
 checkImport();
 if(window.addEventListener) window.addEventListener("hashchange", checkImport);
 
-// Asignación explícita y directa de eventos click
-window.addEventListener("DOMContentLoaded", () => {
-  const goBtn = $("go");
-  const stopBtn = $("stop");
-  
-  if (goBtn) goBtn.onclick = () => begin();
-  if (stopBtn) stopBtn.onclick = () => stopAll();
-});
+// Asignación directa sin esperar DOMContentLoaded (porque el script está al final)
+$("go").onclick = () => begin();
+$("stop").onclick = stopAll;

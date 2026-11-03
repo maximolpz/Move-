@@ -33,7 +33,7 @@ self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
   
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: "no-cache" })
       .then(response => {
         // Si la respuesta es válida, la actualizamos en caché de forma dinámica
         if (response && response.status === 200 && response.type === 'basic') {

@@ -321,6 +321,15 @@
   </div>
 </main>
 
-<script src="app.js"></script>
+<script>
+  // Aviso de errores en pantalla (se puede borrar cuando todo ande bien)
+  window.addEventListener("error", function(e){
+    var d = document.createElement("div");
+    d.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:2000;background:#b00020;color:#fff;padding:10px 12px;font:13px/1.3 system-ui,sans-serif";
+    d.textContent = "Error: " + e.message + " (" + String(e.filename || "").split("/").pop() + ":" + e.lineno + ")";
+    document.body.appendChild(d);
+  });
+</script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

@@ -164,7 +164,7 @@ $("cAdd").onclick = () => {
   const n = $("cName").value.trim().slice(0, 40), c = Math.floor(+$("cQty").value);
   const u = ($("cUnit").value.trim() || "repeticiones").slice(0, 30).replace(/[{}]/g, "");
   const h = $("cHow").value.trim().slice(0, 120);
-  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty") : $("cName")).focus(); return; }
+  if(!n || !(c >= 1 && c <= 500)){ (n ? $("cQty" ) : $("cName")).focus(); return; }
   if(custom.length >= 30) return;
   custom.push({n, c, r: "{n} " + u, h});
   ["cName", "cQty", "cHow"].forEach(id => $(id).value = "");
@@ -228,8 +228,8 @@ $("impOk").onclick = () => {
 // 6. ENLACES Y NAVEGACIÓN DE PANTALLAS
 // ==========================================
 const MUSIC = {
-  spotify: "https://open.spotify.com/intl-es/album/0NVktHht8xOeTHNd1LNHcL?si=wsODVPSrQa218e6l7v0UJQ",
-  ytm: "https://music.youtube.com/watch?v=M6BITChPuMw&list=OLAK5uy_liTYhgzZN0r-Qt-hMAXK3b6yjFe-RL4aY"
+  spotify: "https://open.spotify.com/playlist/0Mkx8ts6zgaIWOmQQJzndr",
+  ytm: "https://music.youtube.com/search?q=workout+playlist"
 };
 $("mSp").href = MUSIC.spotify; $("mYt").href = MUSIC.ytm;
 
@@ -440,7 +440,7 @@ function stopAll(){
 }
 
 // ==========================================
-// 9. INICIALIZACIÓN
+// 9. INICIALIZACIÓN (EVENTOS DE LOS BOTONES GO/STOP)
 // ==========================================
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
   navigator.serviceWorker.register("sw.js").catch(() => {});
@@ -450,6 +450,6 @@ load();
 checkImport();
 if(window.addEventListener) window.addEventListener("hashchange", checkImport);
 
-// Aseguramos que los botones principales conecten correctamente
+// Conexión explícita y directa de los botones Empezar y Detener todo
 $("go").onclick = () => begin();
 $("stop").onclick = stopAll;

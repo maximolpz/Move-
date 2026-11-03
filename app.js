@@ -228,8 +228,8 @@ $("impOk").onclick = () => {
 // 6. ENLACES Y NAVEGACIÓN DE PANTALLAS
 // ==========================================
 const MUSIC = {
-  spotify: "https://open.spotify.com/playlist/0Mkx8ts6zgaIWOmQQJzndr",
-  ytm: "https://music.youtube.com/search?q=workout+playlist"
+  spotify: "https://open.spotify.com/intl-es/album/0NVktHht8xOeTHNd1LNHcL?si=wsODVPSrQa218e6l7v0UJQ",
+  ytm: "https://music.youtube.com/watch?v=M6BITChPuMw&list=OLAK5uy_liTYhgzZN0r-Qt-hMAXK3b6yjFe-RL4aY"
 };
 $("mSp").href = MUSIC.spotify; $("mYt").href = MUSIC.ytm;
 

@@ -18,7 +18,7 @@ const EXERCISES = [
   {n:"Escaladores", c:20, r:"{n} en total", h:"En posición de flexión, llevá una rodilla al pecho y alterná."},
   {n:"Sentadilla de pared", c:30, r:"{n} segundos", h:"Espalda contra la pared, muslos paralelos al piso. Aguantá."},
   {n:"Elevación de hombros", c:15, r:"{n} repeticiones", h:"Subí los hombros hacia las orejas, sostené 1 segundo y soltá."},
-  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En four apoyos, subí una pierna doblada hacia el techo."},
+  {n:"Patada de burro", c:10, r:"{n} por pierna", h:"En cuatro apoyos, subí una pierna doblada hacia el techo."},
   {n:"Estiramiento de espalda", c:30, r:"{n} segundos", h:"Entrelazá las manos, estirá los brazos al frente y redondeá la espalda."}
 ];
 
@@ -449,13 +449,18 @@ function stopAll(){
 // 9. INICIALIZACIÓN DIRECTA
 // ==========================================
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
-  navigator.serviceWorker.register("sw.js").catch(() => {});
+  navigator.serviceWorker.register("sw.js").then(reg => {
+    reg.update(); // Fuerza la actualización del SW en móviles
+  }).catch(() => {});
 }
 
 load();
 checkImport();
 if(window.addEventListener) window.addEventListener("hashchange", checkImport);
 
-// Asignación directa sin esperar DOMContentLoaded (porque el script está al final)
-$("go").onclick = () => begin();
-$("stop").onclick = stopAll;
+// Asignación directa y limpia de los botones principales
+const goBtn = $("go");
+const stopBtn = $("stop");
+
+if(goBtn) goBtn.onclick = () => begin();
+if(stopBtn) stopBtn.onclick = () => stopAll();

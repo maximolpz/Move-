@@ -17,7 +17,7 @@ self.addEventListener("install", e => {
   );
 });
 
-// Activación: Limpiar cachés antiguas y tomar control inmediato
+// Activación: Limpiar cachés antiguas
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys().then(keys => {
@@ -35,6 +35,7 @@ self.addEventListener("fetch", e => {
   e.respondWith(
     fetch(e.request)
       .then(response => {
+        // Si la respuesta es válida, la actualizamos en caché de forma dinámica
         if (response && response.status === 200 && response.type === 'basic') {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then(cache => {
